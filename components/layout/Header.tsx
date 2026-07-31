@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { NAV_LINKS } from '@/constants/navigation'
+import { SITE_CONFIG } from '@/constants/site'
 import { MobileMenu } from './MobileMenu'
 
 export function Header() {
@@ -31,12 +32,14 @@ export function Header() {
           </ul>
 
           <div className="flex items-center gap-3">
-            <Link
-              href="/contact"
+            <a
+              href={SITE_CONFIG.lineUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className="hidden rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-hover md:inline-flex"
             >
-              お問い合わせ
-            </Link>
+              LINEで無料相談する
+            </a>
             <MobileMenu />
           </div>
         </nav>

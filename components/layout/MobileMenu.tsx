@@ -45,13 +45,15 @@ export function MobileMenu() {
               {NAV_LINKS.map((item) =>
                 item.cta ? (
                   <li key={item.href} className="pt-2">
-                    <Link
+                    <a
                       href={item.href}
+                      target={item.external ? '_blank' : undefined}
+                      rel={item.external ? 'noopener noreferrer' : undefined}
                       onClick={close}
                       className="flex w-full items-center justify-center rounded-full bg-primary py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-hover"
                     >
                       {item.label}
-                    </Link>
+                    </a>
                   </li>
                 ) : (
                   <li key={item.href}>

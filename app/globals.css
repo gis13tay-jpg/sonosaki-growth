@@ -31,6 +31,31 @@ html {
   scroll-behavior: smooth;
 }
 
+/* 診断UIのステップ切り替えアニメーション */
+@keyframes diagnosis-step-in {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes diagnosis-step-in {
+    from {
+      opacity: 1;
+      transform: none;
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
 /* ============================================================
    Light Theme Tokens
    ============================================================ */

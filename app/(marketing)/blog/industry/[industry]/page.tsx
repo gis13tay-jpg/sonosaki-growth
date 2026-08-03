@@ -2,13 +2,13 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { COLUMNS, categoryLabel } from '@/data/columns'
-import { CONCERNS } from '@/data/concerns'
+import { INDUSTRIES } from '@/data/industries'
 import { Breadcrumbs } from '@/components/blog/Breadcrumbs'
 
-type Params = { concern: string }
+type Params = { industry: string }
 
 export function generateStaticParams() {
-  return CONCERNS.map((concern) => ({ concern: concern.slug }))
+  return INDUSTRIES.map((industry) => ({ industry: industry.slug }))
 }
 
 export async function generateMetadata({
@@ -16,21 +16,21 @@ export async function generateMetadata({
 }: {
   params: Promise<Params>
 }): Promise<Metadata> {
-  const { concern } = await params
-  const found = CONCERNS.find((c) => c.slug === concern)
-  return { title: found ? `「${found.label}」に関するコラム` : 'コラム' }
+  const { industry } = await params
+  const found = INDUSTRIES.find((i) => i.slug === industry)
+  return { title: found ? `${found.label}向けのコラム一覧` : 'コラム' }
 }
 
-export default async function BlogConcernPage({
+export default async function BlogIndustryPage({
   params,
 }: {
   params: Promise<Params>
 }) {
-  const { concern } = await params
-  const found = CONCERNS.find((c) => c.slug === concern)
+  const { industry } = await params
+  const found = INDUSTRIES.find((i) => i.slug === industry)
   if (!found) notFound()
 
-  const articles = COLUMNS.filter((c) => c.concerns.includes(concern)).sort((a, b) =>
+  const articles = COLUMNS.filter((c) => c.industries.includes(industry)).sort((a, b) =>
     a.publishedAt < b.publishedAt ? 1 : -1,
   )
 
@@ -40,28 +40,28 @@ export default async function BlogConcernPage({
         <Breadcrumbs items={[{ label: 'コラム', href: '/blog' }, { label: found.label }]} />
 
         <h1 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          「{found.label}」の悩みに関するコラム
+          {found.label}向けのコラム
         </h1>
 
         <div className="mt-8 flex flex-wrap gap-2">
-          {CONCERNS.map((c) => (
+          {INDUSTRIES.map((i) => (
             <Link
-              key={c.slug}
-              href={`/blog/concern/${c.slug}`}
+              key={i.slug}
+              href={`/blog/industry/${i.slug}`}
               className={`rounded-full border px-3.5 py-1.5 text-xs font-medium transition-colors sm:text-sm ${
-                c.slug === concern
+                i.slug === industry
                   ? 'border-primary bg-primary-light text-primary'
                   : 'border-border bg-white text-foreground hover:border-primary hover:text-primary'
               }`}
             >
-              {c.label}
+              {i.label}
             </Link>
           ))}
         </div>
 
         {articles.length === 0 ? (
           <p className="mt-10 text-sm text-muted-fg">
-            このお悩みに関する記事は、まだありません。順次公開していきます。
+            この業種向けの記事は、まだありません。順次公開していきます。
           </p>
         ) : (
           <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">

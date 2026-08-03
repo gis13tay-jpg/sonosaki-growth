@@ -1,7 +1,11 @@
 import type { Metadata } from 'next'
 import { Geist_Mono, Noto_Sans_JP } from 'next/font/google'
+import { GoogleAnalytics } from '@next/third-parties/google'
 import { SITE_CONFIG } from '@/constants/site'
 import './globals.css'
+
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
+const isProduction = process.env.NODE_ENV === 'production'
 
 const notoSansJP = Noto_Sans_JP({
   subsets: ['latin'],
@@ -59,6 +63,9 @@ export default function RootLayout({
       <body className="flex min-h-full flex-col bg-background text-foreground">
         {children}
       </body>
+      {isProduction && GA_MEASUREMENT_ID && (
+        <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />
+      )}
     </html>
   )
 }

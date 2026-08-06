@@ -3,7 +3,7 @@ import { COLUMNS, COLUMN_CATEGORIES } from '@/data/columns'
 import { CONCERNS } from '@/data/concerns'
 import { INDUSTRIES } from '@/data/industries'
 
-const SITE_URL = 'https://sonosakigrowth.jp'
+const SITE_URL = 'https://www.sonosakigrowth.jp'
 
 function latestPublishedAt(columns: { publishedAt: string }[]): Date {
   if (columns.length === 0) return new Date()

@@ -25,7 +25,17 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params
   const column = COLUMNS.find((c) => c.slug === slug)
-  return column ? { title: column.title, description: column.excerpt } : { title: 'コラム' }
+  if (!column) return { title: 'コラム' }
+
+  const keywords = [column.primaryKeyword, ...(column.relatedKeywords ?? [])].filter(
+    (v): v is string => Boolean(v),
+  )
+
+  return {
+    title: column.title,
+    description: column.description ?? column.excerpt,
+    ...(keywords.length > 0 ? { keywords } : {}),
+  }
 }
 
 function concernLabel(slug: string) {
@@ -56,9 +66,50 @@ export default async function BlogArticlePage({
     relatedColumns.map((c) => c.slug),
     3,
   )
+  const hasSections = (column.contentSections?.length ?? 0) > 0
+  const ctaHref = column.ctaHref ?? SITE_CONFIG.lineUrl
+  const ctaExternal = !column.ctaHref
+  const ctaLabel = column.ctaLabel ?? 'LINEで無料相談する'
+  const ctaDescription =
+    column.ctaDescription ?? 'まずはお気軽にご相談ください。しつこい営業は行いません。'
 
   return (
     <article className="bg-background py-16 sm:py-20">
+      {column.faq && column.faq.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'FAQPage',
+              mainEntity: column.faq.map((item) => ({
+                '@type': 'Question',
+                name: item.question,
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: item.answer,
+                },
+              })),
+            }),
+          }}
+        />
+      )}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BlogPosting',
+            headline: column.title,
+            description: column.description ?? column.excerpt,
+            datePublished: column.publishedAt,
+            dateModified: column.updatedAt ?? column.publishedAt,
+            author: { '@type': 'Organization', name: SITE_CONFIG.name },
+            publisher: { '@type': 'Organization', name: SITE_CONFIG.name },
+          }),
+        }}
+      />
+
       <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
         <Breadcrumbs
           items={[
@@ -78,11 +129,21 @@ export default async function BlogArticlePage({
             </Link>
           )}
           <time dateTime={column.publishedAt}>{column.publishedAt}</time>
+          {column.updatedAt && column.updatedAt !== column.publishedAt && (
+            <span>（更新：{column.updatedAt}）</span>
+          )}
         </div>
 
         <h1 className="mt-4 text-2xl font-bold leading-snug tracking-tight text-foreground sm:text-3xl">
           {column.title}
         </h1>
+
+        {column.leadAnswer && (
+          <div className="mt-6 rounded-2xl border-l-4 border-primary bg-primary-light/40 p-5 sm:p-6">
+            <p className="text-sm font-bold text-primary">結論</p>
+            <p className="mt-2 text-base leading-relaxed text-foreground">{column.leadAnswer}</p>
+          </div>
+        )}
 
         {column.keyTakeaways.length > 0 && (
           <div className="mt-6 rounded-2xl border border-border bg-surface p-5 sm:p-6">
@@ -98,29 +159,114 @@ export default async function BlogArticlePage({
           </div>
         )}
 
-        <div className="mt-8 space-y-5">
-          {column.content.map((paragraph, idx) => (
-            <p key={idx} className="text-base leading-relaxed text-foreground">
-              {paragraph}
-            </p>
-          ))}
-        </div>
+        {hasSections ? (
+          <div className="mt-8 space-y-6">
+            {column.contentSections!.map((section, idx) => (
+              <div key={idx}>
+                {section.heading && (
+                  <h2 className="text-lg font-bold tracking-tight text-foreground sm:text-xl">
+                    {section.heading}
+                  </h2>
+                )}
+                {section.paragraphs?.map((paragraph, pIdx) => (
+                  <p
+                    key={pIdx}
+                    className={`text-base leading-relaxed text-foreground ${
+                      section.heading || pIdx > 0 ? 'mt-3' : ''
+                    }`}
+                  >
+                    {paragraph}
+                  </p>
+                ))}
+                {section.list && section.list.length > 0 && (
+                  section.ordered ? (
+                    <ol className="mt-3 list-decimal space-y-1.5 pl-5" role="list">
+                      {section.list.map((item) => (
+                        <li key={item} className="text-base leading-relaxed text-foreground">
+                          {item}
+                        </li>
+                      ))}
+                    </ol>
+                  ) : (
+                    <ul className="mt-3 space-y-1.5" role="list">
+                      {section.list.map((item) => (
+                        <li key={item} className="flex items-start gap-2.5 text-base leading-relaxed text-foreground">
+                          <span className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-muted-fg" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )
+                )}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="mt-8 space-y-5">
+            {column.content.map((paragraph, idx) => (
+              <p key={idx} className="text-base leading-relaxed text-foreground">
+                {paragraph}
+              </p>
+            ))}
+          </div>
+        )}
+
+        {/* FAQ */}
+        {column.faq && column.faq.length > 0 && (
+          <div className="mt-10 border-t border-border pt-8">
+            <h2 className="text-lg font-bold tracking-tight text-foreground sm:text-xl">
+              よくあるご質問
+            </h2>
+            <div className="mt-4 space-y-3">
+              {column.faq.map((item) => (
+                <details
+                  key={item.question}
+                  className="group rounded-xl border border-border bg-surface px-4 py-3 sm:px-5 sm:py-4"
+                >
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-semibold text-foreground sm:text-base">
+                    <span className="flex-1">{item.question}</span>
+                    <svg
+                      className="h-4 w-4 shrink-0 text-muted-fg transition-transform group-open:rotate-180"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      aria-hidden="true"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </summary>
+                  <p className="mt-2.5 text-sm leading-relaxed text-muted-fg sm:text-base">
+                    {item.answer}
+                  </p>
+                </details>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="mt-12 rounded-2xl border border-primary bg-primary-light p-6 text-center sm:p-8">
           <p className="text-base font-bold text-foreground sm:text-lg">
             この記事の内容で気になることがあれば
           </p>
-          <p className="mt-1 text-sm text-muted-fg">
-            まずはお気軽にご相談ください。しつこい営業は行いません。
-          </p>
-          <a
-            href={SITE_CONFIG.lineUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-5 inline-flex items-center justify-center rounded-full bg-primary px-7 py-3 text-sm font-semibold text-white transition-all hover:bg-primary-hover active:scale-[0.98]"
-          >
-            LINEで無料相談する
-          </a>
+          <p className="mt-1 text-sm text-muted-fg">{ctaDescription}</p>
+          {ctaExternal ? (
+            <a
+              href={ctaHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-5 inline-flex items-center justify-center rounded-full bg-primary px-7 py-3 text-sm font-semibold text-white transition-all hover:bg-primary-hover active:scale-[0.98]"
+            >
+              {ctaLabel}
+            </a>
+          ) : (
+            <Link
+              href={ctaHref}
+              className="mt-5 inline-flex items-center justify-center rounded-full bg-primary px-7 py-3 text-sm font-semibold text-white transition-all hover:bg-primary-hover active:scale-[0.98]"
+            >
+              {ctaLabel}
+            </Link>
+          )}
         </div>
 
         {/* この記事の分類 */}

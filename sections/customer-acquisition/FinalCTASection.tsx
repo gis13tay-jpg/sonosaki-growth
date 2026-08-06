@@ -1,15 +1,14 @@
 import { SITE_CONFIG } from '@/constants/site'
-import { DARK_SECTION_BG, DARK_SUBTEXT, BUTTON_ON_DARK_OUTLINE } from './theme'
 
 const REASSURANCES = [
   '何から手をつければいいか分からない状態でも大丈夫です',
-  '診断の回答内容を保存・外部送信することはありません',
+  'Google検索・Googleマップ・AI検索・Instagram・ページ制作を、バラバラにではなくまとめて整理します',
 ] as const
 
 function CheckIcon() {
   return (
     <svg
-      className="mt-0.5 h-5 w-5 shrink-0 text-white"
+      className="mt-0.5 h-5 w-5 shrink-0 text-primary"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
@@ -23,15 +22,15 @@ function CheckIcon() {
 
 export function FinalCTASection() {
   return (
-    <section id="contact" className={`scroll-mt-20 ${DARK_SECTION_BG} py-20 sm:py-28`}>
+    <section id="contact" className="scroll-mt-20 bg-primary py-20 sm:py-28">
       <div className="mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
         <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-          まずは、今の状態を整理するところから。
+          まずは、現状を整理するところから。
         </h2>
-        <p className={`mt-4 text-base leading-relaxed sm:text-lg ${DARK_SUBTEXT}`}>
-          採用も、定着も、組織づくりも、始まりはいつも「人」です。
+        <p className="mt-4 text-base leading-relaxed text-white/85 sm:text-lg">
+          良いサービスが、正しく見つけられ、選ばれるように。
           <br className="hidden sm:block" />
-          6つの質問から、優先して見直すべきポイントを整理しませんか。
+          集客導線の現状を、一緒に整理しませんか。
         </p>
 
         <ul className="mx-auto mt-8 flex max-w-md flex-col gap-3 text-left" role="list">
@@ -43,21 +42,18 @@ export function FinalCTASection() {
           ))}
         </ul>
 
-        <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-          <a href="#diagnosis" className="inline-flex items-center justify-center rounded-full bg-white px-8 py-4 text-base font-semibold text-[#0b1c33] transition-all hover:bg-white/90 active:scale-[0.98]">
-            無料で組織を診断する
-          </a>
+        <div className="mt-10">
           <a
             href={SITE_CONFIG.lineUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className={BUTTON_ON_DARK_OUTLINE}
+            className="inline-flex items-center justify-center rounded-full bg-white px-8 py-4 text-base font-semibold text-primary transition-all hover:bg-white/90 active:scale-[0.98]"
           >
             LINEで無料相談する
           </a>
         </div>
 
-        <p className="mt-4 text-xs text-white/60">
+        <p className="mt-4 text-xs text-white/70">
           入力いただいた情報は、お問い合わせ対応の目的以外には使用しません。
         </p>
       </div>

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { NAV_LINKS } from '@/constants/navigation'
+import { MOBILE_NAV_LINKS } from '@/constants/navigation'
 import { cn } from '@/lib/utils'
 
 export function MobileMenu() {
@@ -42,7 +42,7 @@ export function MobileMenu() {
         <div className="absolute inset-x-0 top-full border-b border-border bg-background px-4 py-6 shadow-lg md:hidden">
           <nav>
             <ul className="flex flex-col gap-2">
-              {NAV_LINKS.map((item) =>
+              {MOBILE_NAV_LINKS.map((item) =>
                 item.cta ? (
                   <li key={item.href} className="pt-2">
                     <a

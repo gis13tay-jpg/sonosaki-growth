@@ -26,6 +26,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.5,
     },
     {
+      url: `${SITE_URL}/customer-acquisition`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
       url: `${SITE_URL}/blog`,
       lastModified: latestPublishedAt(COLUMNS),
       changeFrequency: 'daily',
@@ -62,7 +68,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const articlePages: MetadataRoute.Sitemap = COLUMNS.map((column) => ({
     url: `${SITE_URL}/blog/${column.slug}`,
-    lastModified: new Date(column.publishedAt),
+    lastModified: new Date(column.updatedAt ?? column.publishedAt),
     changeFrequency: 'monthly',
     priority: 0.7,
   }))

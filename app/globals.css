@@ -31,6 +31,64 @@ html {
   scroll-behavior: smooth;
 }
 
+/* HERO見出しの、本物の蛍光マーカーのような強調表現（文字の下半分〜中央に半透明の帯がかかる） */
+.hero-marker {
+  position: relative;
+  z-index: 0;
+  color: #0b1c33;
+}
+.hero-marker::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: -3%;
+  right: -3%;
+  top: 38%;
+  bottom: -10%;
+  background: #1c6b46;
+  opacity: 0.4;
+  clip-path: polygon(0% 18%, 100% 0%, 98% 82%, 2% 100%);
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: hero-marker-draw 0.65s ease-out forwards;
+  animation-delay: 0.15s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-marker::before {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+  }
+}
+
+/* 調査データ見出しの、落ち着いたオレンジのマーカー（文字には重ねず、下側に短く引かれる） */
+.survey-marker {
+  position: relative;
+  z-index: 0;
+}
+.survey-marker::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: -2%;
+  right: -2%;
+  top: 100%;
+  margin-top: -0.14em;
+  height: 0.2em;
+  background: #c9722f;
+  opacity: 0.85;
+  clip-path: polygon(0% 30%, 100% 0%, 98% 70%, 2% 100%);
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: hero-marker-draw 0.6s ease-out forwards;
+  animation-delay: 0.3s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .survey-marker::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+  }
+}
+
 /* 診断UIのステップ切り替えアニメーション */
 @keyframes diagnosis-step-in {
   from {
@@ -53,6 +111,140 @@ html {
       opacity: 1;
       transform: none;
     }
+  }
+}
+
+/* HEROビジュアル（3人の社員の根が幹へ収束し、社会への貢献へ育つ組織ツリー）の演出アニメーション */
+@keyframes hero-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 見出しの細いマーカーが左から右へ引かれる */
+@keyframes hero-marker-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* 最後の到達点（濃紺メッセージカード）が下からわずかに現れる */
+@keyframes hero-foundation-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 幹（トランク）が下から上へ伸びる */
+@keyframes hero-line-draw-x {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes hero-line-draw-y {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+/* 3人の根からの収束線（SVG）が下から上へ描かれる */
+@keyframes hero-svg-line-draw {
+  from {
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* 幹を下から上へ一度だけ移動する光の点 */
+@keyframes hero-dot-travel {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+}
+
+/* 各要素（人物カード・階層ラベルなど）がフェードアップして現れる */
+@keyframes hero-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes hero-fade-up {
+    from { opacity: 1; transform: none; }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes hero-marker-draw {
+    from { transform: scaleX(1); }
+    to { transform: scaleX(1); }
+  }
+  @keyframes hero-foundation-in {
+    from { opacity: 1; transform: none; }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes hero-line-draw-x {
+    from { transform: scaleX(1); }
+    to { transform: scaleX(1); }
+  }
+  @keyframes hero-line-draw-y {
+    from { transform: scaleY(1); }
+    to { transform: scaleY(1); }
+  }
+  @keyframes hero-svg-line-draw {
+    from { stroke-dashoffset: 0; }
+    to { stroke-dashoffset: 0; }
+  }
+  @keyframes hero-dot-travel {
+    from { opacity: 0; }
+    to { opacity: 0; }
+  }
+  @keyframes hero-card-in {
+    from { opacity: 1; transform: none; }
+    to { opacity: 1; transform: none; }
+  }
+
+  /* animation-delayが残ったままだと、遅延中は要素のベーススタイル（opacity-0など）が
+     表示され続けてしまうため、delay/durationそのものを無効化して即座に完成状態にする */
+  [class*="[animation:hero-"] {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
   }
 }
 

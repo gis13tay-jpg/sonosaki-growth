@@ -2,8 +2,8 @@ import Link from 'next/link'
 import { SITE_CONFIG } from '@/constants/site'
 
 const FOOTER_NAV = [
-  { label: '導線の課題', href: '/#root-cause' },
-  { label: '支援の流れ', href: '/#service-flow' },
+  { label: '組織診断', href: '/#diagnosis' },
+  { label: '集客支援', href: '/customer-acquisition' },
   { label: 'よくある質問', href: '/#faq' },
   { label: 'お問い合わせ', href: '/#contact' },
 ]

@@ -13,4 +13,6 @@ export const CONCERNS: Concern[] = [
   { slug: 'ai-search-not-found', label: 'AI検索に出てこない' },
   { slug: 'lp-no-inquiry', label: 'LPから問い合わせが来ない' },
   { slug: 'unknown', label: '何から始めればいいか分からない' },
+  { slug: '1on1-not-working', label: '1on1で本音が聞けない' },
+  { slug: 'dx-ai-not-working', label: 'DXやAIを導入しても組織が変わらない' },
 ]

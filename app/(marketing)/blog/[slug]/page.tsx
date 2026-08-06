@@ -30,11 +30,34 @@ export async function generateMetadata({
   const keywords = [column.primaryKeyword, ...(column.relatedKeywords ?? [])].filter(
     (v): v is string => Boolean(v),
   )
+  const url = `${SITE_CONFIG.url}/blog/${column.slug}`
+  const description = column.description ?? column.excerpt
+  const publishedTime = new Date(column.publishedAt).toISOString()
+  const modifiedTime = new Date(column.updatedAt ?? column.publishedAt).toISOString()
+  const ogImage = `${SITE_CONFIG.url}${SITE_CONFIG.ogImage}`
 
   return {
     title: column.title,
-    description: column.description ?? column.excerpt,
+    description,
     ...(keywords.length > 0 ? { keywords } : {}),
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      type: 'article',
+      url,
+      title: column.title,
+      description,
+      publishedTime,
+      modifiedTime,
+      images: [{ url: ogImage }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: column.title,
+      description,
+      images: [ogImage],
+    },
   }
 }
 
@@ -72,6 +95,8 @@ export default async function BlogArticlePage({
   const ctaLabel = column.ctaLabel ?? 'LINEで無料相談する'
   const ctaDescription =
     column.ctaDescription ?? 'まずはお気軽にご相談ください。しつこい営業は行いません。'
+  const canonicalUrl = `${SITE_CONFIG.url}/blog/${column.slug}`
+  const ogImage = `${SITE_CONFIG.url}${SITE_CONFIG.ogImage}`
 
   return (
     <article className="bg-background py-16 sm:py-20">
@@ -100,12 +125,15 @@ export default async function BlogArticlePage({
           __html: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'BlogPosting',
+            url: canonicalUrl,
+            mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalUrl },
             headline: column.title,
             description: column.description ?? column.excerpt,
+            image: [ogImage],
             datePublished: column.publishedAt,
             dateModified: column.updatedAt ?? column.publishedAt,
-            author: { '@type': 'Organization', name: SITE_CONFIG.name },
-            publisher: { '@type': 'Organization', name: SITE_CONFIG.name },
+            author: { '@type': 'Organization', name: SITE_CONFIG.name, url: SITE_CONFIG.url },
+            publisher: { '@type': 'Organization', name: SITE_CONFIG.name, url: SITE_CONFIG.url },
           }),
         }}
       />

@@ -2,7 +2,8 @@ export const SITE_CONFIG = {
   name: 'SONOSAKI Growth',
   description:
     'AI検索・Google検索・Instagram・ブログ・LINE・LPを組み合わせた「選ばれる仕組み」を設計・構築します。',
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000',
+  // sitemap.ts / robots.tsと同じ本番ドメインで統一する（環境変数の設定漏れでlocalhostにフォールバックしないようにするため）
+  url: 'https://sonosakigrowth.jp',
   ogImage: '/images/og/default.png',
   twitterHandle: '@sonosakigrowth',
   lineUrl: 'https://lin.ee/Oh9GVkp',

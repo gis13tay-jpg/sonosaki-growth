@@ -34,12 +34,14 @@ export const metadata: Metadata = {
     siteName: SITE_CONFIG.name,
     title: SITE_CONFIG.name,
     description: SITE_CONFIG.description,
+    images: [{ url: SITE_CONFIG.ogImage }],
   },
   twitter: {
     card: 'summary_large_image',
     title: SITE_CONFIG.name,
     description: SITE_CONFIG.description,
     creator: SITE_CONFIG.twitterHandle,
+    images: [SITE_CONFIG.ogImage],
   },
   robots: {
     index: true,

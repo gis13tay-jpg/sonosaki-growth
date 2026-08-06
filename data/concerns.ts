@@ -15,4 +15,7 @@ export const CONCERNS: Concern[] = [
   { slug: 'unknown', label: '何から始めればいいか分からない' },
   { slug: '1on1-not-working', label: '1on1で本音が聞けない' },
   { slug: 'dx-ai-not-working', label: 'DXやAIを導入しても組織が変わらない' },
+  { slug: 'exit-despite-no-problem', label: '面談で「問題ありません」と言われるのに離職される' },
+  { slug: 'work-meaning', label: '社員が会社で働く意味を感じられていない' },
+  { slug: 'google-map-reviews-few', label: 'Googleマップの口コミが少ない' },
 ]

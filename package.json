@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "deploy:check": "bash scripts/check-deploy.sh",
+    "articles:verify": "bash scripts/verify-production.sh"
   },
   "dependencies": {
     "@next/third-parties": "16.2.12",

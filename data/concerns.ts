@@ -18,4 +18,6 @@ export const CONCERNS: Concern[] = [
   { slug: 'exit-despite-no-problem', label: '面談で「問題ありません」と言われるのに離職される' },
   { slug: 'work-meaning', label: '社員が会社で働く意味を感じられていない' },
   { slug: 'google-map-reviews-few', label: 'Googleマップの口コミが少ない' },
+  { slug: 'subordinate-not-growing', label: '部下が育たない' },
+  { slug: 'psychological-safety', label: '心理的安全性を高めたい' },
 ]

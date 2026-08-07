@@ -226,6 +226,16 @@ export default async function BlogArticlePage({
                     </ul>
                   )
                 )}
+                {section.cta && (
+                  <div className="mt-4 rounded-xl border border-primary/30 bg-primary-light/50 p-4 sm:p-5">
+                    <Link
+                      href={section.cta.href}
+                      className="inline-flex items-center justify-center rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-primary-hover active:scale-[0.98]"
+                    >
+                      {section.cta.label}
+                    </Link>
+                  </div>
+                )}
               </div>
             ))}
           </div>

@@ -20,4 +20,6 @@ export const CONCERNS: Concern[] = [
   { slug: 'google-map-reviews-few', label: 'Googleマップの口コミが少ない' },
   { slug: 'subordinate-not-growing', label: '部下が育たない' },
   { slug: 'psychological-safety', label: '心理的安全性を高めたい' },
+  { slug: 'communication-mismatch', label: '社員とのコミュニケーションがかみ合わない' },
+  { slug: 'genz-motivation-unclear', label: 'Z世代のやる気が分からない' },
 ]

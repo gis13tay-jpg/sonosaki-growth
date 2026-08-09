@@ -22,4 +22,6 @@ export const CONCERNS: Concern[] = [
   { slug: 'psychological-safety', label: '心理的安全性を高めたい' },
   { slug: 'communication-mismatch', label: '社員とのコミュニケーションがかみ合わない' },
   { slug: 'genz-motivation-unclear', label: 'Z世代のやる気が分からない' },
+  { slug: 'early-turnover', label: '入社1年以内に離職する' },
+  { slug: 'turnover-despite-1on1', label: '1on1をしても離職を防げない' },
 ]

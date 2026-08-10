@@ -187,12 +187,30 @@ export default async function BlogArticlePage({
           </div>
         )}
 
+        {column.tableOfContents && column.tableOfContents.length > 0 && (
+          <nav aria-label="目次" className="mt-6 rounded-2xl border border-border bg-surface p-5 sm:p-6">
+            <p className="text-sm font-bold text-foreground sm:text-base">目次</p>
+            <ol className="mt-3 space-y-1.5 pl-5" role="list">
+              {column.tableOfContents.map((item) => (
+                <li key={item.anchor} className="list-decimal text-sm leading-relaxed text-foreground">
+                  <a href={`#${item.anchor}`} className="text-primary hover:underline">
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        )}
+
         {hasSections ? (
           <div className="mt-8 space-y-6">
             {column.contentSections!.map((section, idx) => (
               <div key={idx}>
                 {section.heading && (
-                  <h2 className="text-lg font-bold tracking-tight text-foreground sm:text-xl">
+                  <h2
+                    id={section.id}
+                    className="scroll-mt-24 text-lg font-bold tracking-tight text-foreground sm:text-xl"
+                  >
                     {section.heading}
                   </h2>
                 )}
@@ -280,6 +298,31 @@ export default async function BlogArticlePage({
                 </details>
               ))}
             </div>
+          </div>
+        )}
+
+        {/* 出典 */}
+        {column.sources && column.sources.length > 0 && (
+          <div className="mt-10 border-t border-border pt-8">
+            <p className="text-sm font-bold text-foreground sm:text-base">出典</p>
+            <ul className="mt-3 space-y-1.5" role="list">
+              {column.sources.map((source) => (
+                <li key={source.name} className="text-xs leading-relaxed text-muted-fg sm:text-sm">
+                  {source.url ? (
+                    <a
+                      href={source.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline"
+                    >
+                      {source.name}
+                    </a>
+                  ) : (
+                    source.name
+                  )}
+                </li>
+              ))}
+            </ul>
           </div>
         )}
 

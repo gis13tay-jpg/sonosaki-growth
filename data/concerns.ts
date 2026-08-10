@@ -24,4 +24,6 @@ export const CONCERNS: Concern[] = [
   { slug: 'genz-motivation-unclear', label: 'Z世代のやる気が分からない' },
   { slug: 'early-turnover', label: '入社1年以内に離職する' },
   { slug: 'turnover-despite-1on1', label: '1on1をしても離職を防げない' },
+  { slug: 'manager-distance-unclear', label: '部下との距離感が分からない' },
+  { slug: 'line-friends-not-growing', label: 'LINE公式アカウントの友だちが増えない' },
 ]

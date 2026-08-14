@@ -1,5 +1,6 @@
 export const SITE_CONFIG = {
-  name: 'SONOSAKI Growth',
+  name: 'SONOSAKI SECOND CAREER',
+  nameJa: 'SONOSAKI セカンドキャリア',
   description:
     'AI検索・Google検索・Instagram・ブログ・LINE・LPを組み合わせた「選ばれる仕組み」を設計・構築します。',
   // sitemap.ts / robots.tsと同じ本番ドメインで統一する（環境変数の設定漏れでlocalhostにフォールバックしないようにするため）。

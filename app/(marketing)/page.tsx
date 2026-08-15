@@ -15,7 +15,7 @@ const PAGE_DESCRIPTION =
   'SONOSAKI SECOND CAREERは、40代以降のキャリア再設計を支援します。自分の判断基準とこれまでの経験を整理し、これからの生き方・働き方を自分で決められる状態を目指します。'
 
 export const metadata: Metadata = {
-  title: PAGE_TITLE,
+  title: { absolute: PAGE_TITLE },
   description: PAGE_DESCRIPTION,
   alternates: {
     canonical: SITE_CONFIG.url,

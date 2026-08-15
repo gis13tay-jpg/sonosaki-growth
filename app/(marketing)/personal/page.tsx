@@ -16,7 +16,7 @@ const PAGE_DESCRIPTION =
 const PAGE_URL = `${SITE_CONFIG.url}/personal`
 
 export const metadata: Metadata = {
-  title: PAGE_TITLE,
+  title: { absolute: PAGE_TITLE },
   description: PAGE_DESCRIPTION,
   alternates: {
     canonical: PAGE_URL,

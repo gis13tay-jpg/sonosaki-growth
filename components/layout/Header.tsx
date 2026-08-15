@@ -15,7 +15,7 @@ export function Header() {
             href="/"
             className="flex-shrink-0 text-xl font-bold tracking-tight text-primary"
           >
-            SONOSAKI Growth
+            {SITE_CONFIG.name}
           </Link>
 
           <ul className="hidden items-center gap-8 md:flex" role="list">

@@ -7,18 +7,15 @@ export type NavItem = {
   external?: boolean
 }
 
+// SONOSAKI SECOND CAREERへのリニューアルに伴うナビゲーション。
+// デスクトップとモバイルで同じ主要リンクを表示するため、1つの配列を両方から参照する。
+// /about（会社概要）は現在の内容が新事業と一致していないため、更新するまでメニューに表示しない
 export const NAV_LINKS: NavItem[] = [
-  { label: '組織診断', href: '/#diagnosis' },
-  { label: '集客支援', href: '/customer-acquisition' },
-  { label: 'よくある質問', href: '/#faq' },
+  { label: 'トップページ', href: '/' },
+  { label: 'プログラム・料金', href: '/personal' },
+  { label: 'コラム', href: '/blog' },
+  { label: '企業向け', href: '/corporate' },
   { label: 'LINEで無料相談する', href: SITE_CONFIG.lineUrl, cta: true, external: true },
 ]
 
-// ハンバーガーメニュー（スマートフォン）専用のナビゲーション。
-// デスクトップヘッダーのNAV_LINKSとは独立させ、「組織支援」「役立つ情報」を軸にした4項目に絞る
-export const MOBILE_NAV_LINKS: NavItem[] = [
-  { label: '組織支援', href: '/' },
-  { label: '集客支援', href: '/customer-acquisition' },
-  { label: '役立つ情報', href: '/blog' },
-  { label: 'よくある質問', href: '/#faq' },
-]
+export const MOBILE_NAV_LINKS: NavItem[] = NAV_LINKS
